@@ -1,0 +1,11 @@
+{application, pfad,
+ [
+  {description, "An Erlang implementation of the algorithms described in 『Pearls of Functional Algorithm Design』"},
+  {vsn, "0.0.1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {env, []}
+ ]}.
