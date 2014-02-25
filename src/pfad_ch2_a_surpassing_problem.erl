@@ -1,5 +1,5 @@
 %% @doc Chapter 2: A surpassing problem
--module(pfad_a_surpassing_problem).
+-module(pfad_ch2_a_surpassing_problem).
 
 -export([
          msc/1,
