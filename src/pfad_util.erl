@@ -3,7 +3,8 @@
 
 -export([
          count_if/2,
-         map_tail/2
+         map_tail/2,
+         min_by/2
         ]).
 
 -spec map_tail(Fun, [Element]) -> [Result] when
@@ -33,3 +34,19 @@ count_if(Fun, List) ->
 -spec boolean_to_integer(boolean()) -> 0|1.
 boolean_to_integer(true)  -> 1;
 boolean_to_integer(false) -> 0.
+
+-spec min_by(Fun, [X]) -> X when
+      Fun :: fun ((X) -> Cost::term()),
+      X   :: term().
+min_by(Fun, [Head | Tail]) ->
+    {_, Min} =
+        lists:foldl(
+          fun (X, {MinCost, MinX}) ->
+                  case Fun(X) of
+                      Cost when Cost < MinCost -> {Cost, X};
+                      _                        -> {MinCost, MinX}
+                  end
+          end,
+          {Fun(Head), Head},
+          Tail),
+    Min.

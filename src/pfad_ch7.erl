@@ -20,23 +20,7 @@ cost({fork, U, V}) -> 1 + max(cost(U), cost(V)).
 
 -spec mincost_tree([integer()]) -> tree().
 mincost_tree(Fringes) ->
-    min_by(fun cost/1, trees(Fringes)).
-
--spec min_by(Fun, [X]) -> X when
-      Fun :: fun ((X) -> Cost::term()),
-      X   :: term().
-min_by(Fun, [Head | Tail]) ->
-    {_, Min} =
-        lists:foldl(
-          fun (X, {MinCost, MinX}) ->
-                  case Fun(X) of
-                      Cost when Cost < MinCost -> {Cost, X};
-                      _                        -> {MinCost, MinX}
-                  end
-          end,
-          {Fun(Head), Head},
-          Tail),
-    Min.
+    pfad_util:min_by(fun cost/1, trees(Fringes)).
 
 -spec trees([integer()]) -> [tree()].
 trees([X])      -> [{leaf, X}];
