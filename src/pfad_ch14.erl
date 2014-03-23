@@ -8,11 +8,7 @@
 
 -spec maxtail([term()]) -> [term()].
 maxtail(List) ->
-    lists:max(tails(List)).
-
--spec tails([term()]) -> [[term()]].
-tails([]) -> [];
-tails(Xs) -> [Xs | tails(tl(Xs))].
+    lists:max(pfad_util:tails(List)).
 
 -spec linear_maxtail([term()]) -> [term()].
 linear_maxtail([])       -> [];

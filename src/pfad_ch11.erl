@@ -10,7 +10,7 @@
 mnss(List) -> 
     lists:max(lists:map(fun lists:sum/1, nonsegs(List))).
 
--spec nonsegs([integer()]) -> [integer()].
+-spec nonsegs([integer()]) -> [[integer()]].
 nonsegs(List) ->
     extract(lists:filter(fun nonseg/1, markings(List))).
 
@@ -30,7 +30,7 @@ extract(ListOfList) ->
 nonseg(List) ->
     'N' =:= lists:foldl(fun step/2, 'E', [Snd || {_, Snd} <- List]).
 
--spec step(State, boolean()) -> State when
+-spec step(boolean(), State) -> State when
       State :: 'E' | 'S' | 'M' | 'N'.
 step(false, 'E') -> 'E';
 step(true,  'E') -> 'S'; 

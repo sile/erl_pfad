@@ -6,7 +6,8 @@
          map_tail/2,
          min_by/2,
          fork/2,
-         id/1
+         id/1,
+         tails/1
         ]).
 
 -spec map_tail(Fun, [Element]) -> [Result] when
@@ -61,5 +62,6 @@ id(X) -> X.
 fork({Fun1, Fun2}, X) ->
     {Fun1(X), Fun2(X)}.
 
-
-                     
+-spec tails([term()]) -> [[term()]].
+tails([]) -> [];
+tails(Xs) -> [Xs | tails(tl(Xs))].
