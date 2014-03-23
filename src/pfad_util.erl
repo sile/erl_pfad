@@ -4,7 +4,9 @@
 -export([
          count_if/2,
          map_tail/2,
-         min_by/2
+         min_by/2,
+         fork/2,
+         id/1
         ]).
 
 -spec map_tail(Fun, [Element]) -> [Result] when
@@ -50,3 +52,14 @@ min_by(Fun, [Head | Tail]) ->
           {Fun(Head), Head},
           Tail),
     Min.
+
+-spec id(term()) -> term().
+id(X) -> X.
+
+-spec fork({Fun, Fun}, term()) -> {term(), term()} when
+      Fun :: fun ((term()) -> term()).
+fork({Fun1, Fun2}, X) ->
+    {Fun1(X), Fun2(X)}.
+
+
+                     
