@@ -7,7 +7,12 @@
          min_by/2,
          fork/2,
          id/1,
-         tails/1
+         tails/1,
+         inits/1,
+         fst/1,
+         snd/1,
+         scanl/3,
+         while/2
         ]).
 
 -spec map_tail(Fun, [Element]) -> [Result] when
@@ -65,3 +70,37 @@ fork({Fun1, Fun2}, X) ->
 -spec tails([term()]) -> [[term()]].
 tails([]) -> [];
 tails(Xs) -> [Xs | tails(tl(Xs))].
+
+-spec inits([term()]) -> [[term()]].
+inits([])       -> [];
+inits([X | Xs]) -> [[X] | [[X | Ys] || Ys <- inits(Xs)]].
+
+-spec fst({X, _}) -> X when X :: term().
+fst({X, _}) -> X.
+
+-spec snd({_, X}) -> X when X :: term().
+snd({_, X}) -> X.
+
+-spec scanl(Fun, Initial, List) -> Acc when
+      Fun     :: fun ((term(), term()) -> term()),
+      Initial :: term(),
+      List    :: [term()],
+      Acc     :: [term()].
+scanl(Fun, Initial, List) ->                               
+    lists:reverse(
+      lists:foldl(fun (X, Acc) -> [Fun(X, hd(Acc)) | Acc] end,
+                  [Initial],
+                  List)).
+
+-spec while(Fun, Arg) -> Result when
+      Fun    :: fun ((Arg) -> {boolean(), Result}),
+      Arg    :: term(),
+      Result :: term().
+while(Fun, Arg) ->
+    case Fun(Arg) of
+        {false, Result} -> Result;
+        {true, NextArg} -> while(Fun, NextArg)
+    end.
+
+      
+                          

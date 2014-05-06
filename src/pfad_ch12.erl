@@ -83,22 +83,11 @@ psort(Xs) ->
 
 -spec label([[term()]]) -> [[{term(), non_neg_integer()}]].
 label(Xss) ->
-    lists:zipwith(fun tag/2, Xss, scanl(fun erlang:'+'/2, 0, [length(Xs) || Xs <- butlast(Xss)])).
+    lists:zipwith(fun tag/2, Xss, pfad_util:scanl(fun erlang:'+'/2, 0, [length(Xs) || Xs <- butlast(Xss)])).
 
 -spec tag([term()], non_neg_integer()) -> [{term(), non_neg_integer()}].
 tag(Xs, K) ->
     [{X, K} || X <- Xs].
-
--spec scanl(Fun, Initial, List) -> Acc when
-      Fun     :: fun ((term(), term()) -> term()),
-      Initial :: term(),
-      List    :: [term()],
-      Acc     :: [term()].
-scanl(Fun, Initial, List) ->                               
-    lists:reverse(
-      lists:foldl(fun (X, Acc) -> [Fun(X, hd(Acc)) | Acc] end,
-                  [Initial],
-                  List)).
 
 -spec resort([{non_neg_integer(), non_neg_integer()}]) -> [non_neg_integer()].
 resort(Ijs) ->

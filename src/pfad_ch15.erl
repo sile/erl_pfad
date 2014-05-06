@@ -6,6 +6,10 @@
          linear_allcp/1
         ]).
 
+-export([
+         llcp/2 % exported for ch16
+        ]).
+
 -spec allcp([term()]) -> [non_neg_integer()].
 allcp(List) ->
     [llcp(List, Tail) || Tail <- pfad_util:tails(List)].
