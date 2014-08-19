@@ -40,7 +40,7 @@ hub(Ws, [X | Xs]) ->
 n_log_n_nub(List) ->
     n_log_n_hub(sets:new(), sets:new(), preprocess(List)).
 
--spec preprocess([term()]) -> [{term(), set()}].
+-spec preprocess([term()]) -> [{term(), sets:set()}].
 preprocess(List) ->
     lists:zip(
       List,
@@ -50,7 +50,7 @@ preprocess(List) ->
                   [sets:new()],
                   tl(List))).
 
--spec n_log_n_hub(set(), set(), [{term(), set()}]) -> [term()].
+-spec n_log_n_hub(sets:set(), sets:set(), [{term(), sets:set()}]) -> [term()].
 n_log_n_hub(_, _, [])                -> [];
 n_log_n_hub(Ps, Ws, [{X, Xs} | Xss]) ->
     case sets:is_element(X, Ps) of
