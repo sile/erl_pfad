@@ -12,7 +12,10 @@
          fst/1,
          snd/1,
          scanl/3,
-         while/2
+         while/2,
+         cons/2,
+         take/2,
+         drop/2
         ]).
 
 -spec map_tail(Fun, [Element]) -> [Result] when
@@ -86,7 +89,7 @@ snd({_, X}) -> X.
       Initial :: term(),
       List    :: [term()],
       Acc     :: [term()].
-scanl(Fun, Initial, List) ->                               
+scanl(Fun, Initial, List) ->
     lists:reverse(
       lists:foldl(fun (X, Acc) -> [Fun(X, hd(Acc)) | Acc] end,
                   [Initial],
@@ -102,5 +105,14 @@ while(Fun, Arg) ->
         {true, NextArg} -> while(Fun, NextArg)
     end.
 
-      
-                          
+-spec cons(term(), list()) -> list().
+cons(X, Xs) ->
+    [X | Xs].
+
+-spec take(non_neg_integer(), list()) -> list().
+take(N, List) ->
+    lists:sublist(List, 1, N).
+
+-spec drop(non_neg_integer(), list()) -> list().
+drop(N, List) ->
+    lists:nthtail(N, List).
