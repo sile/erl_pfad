@@ -1,4 +1,4 @@
-%% @doc Chapter16: The Boyer-Moore algorithm
+%% @doc Chapter18: Planning solves the Rush Hour problem
 -module(pfad_ch18).
 
 -export([

@@ -1,4 +1,4 @@
-%% @doc Chapter16: The Countdown problem
+%% @doc Chapter20: The Countdown problem
 -module(pfad_ch20).
 
 -export([

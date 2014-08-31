@@ -1,4 +1,4 @@
-%% @doc Chapter16: The Boyer-Moore algorithm
+%% @doc Chapter17: The Knuth-Morris-Pratt algorithm
 -module(pfad_ch17).
 
 -export([
@@ -43,7 +43,7 @@ linear_matches(Pattern, Text) ->
     Grep = fun Grep(L, [])       -> fun() -> {node, [], L, Null} end;
                Grep(L, [V | Vs]) -> fun() -> {node, [V | Vs], L, Grep(Op(L, V, Grep(Null, Pattern)), Vs)} end
            end,
-    
+
     Root = Grep(Null, Pattern),
 
     Step = fun (X, {N, T}) -> {N + 1, Op(T, X, Root)} end,

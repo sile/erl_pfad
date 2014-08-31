@@ -1,4 +1,4 @@
-%% @doc Chapter16: The Boyer-Moore algorithm
+%% @doc Chapter19: A simple Sudoku solver
 -module(pfad_ch19).
 
 -export([
