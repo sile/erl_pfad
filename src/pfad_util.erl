@@ -4,6 +4,7 @@
 -export([
          count_if/2,
          map_tail/2,
+         concat_map/2,
          min_by/2,
          fork/2,
          id/1,
@@ -116,3 +117,12 @@ take(N, List) ->
 -spec drop(non_neg_integer(), list()) -> list().
 drop(N, List) ->
     lists:nthtail(N, List).
+
+-spec concat_map(Fun, List1) -> List2 when
+      Fun    :: fun ((Input) -> [Output]),
+      List1  :: [Input],
+      List2  :: [Output],
+      Input  :: term(),
+      Output :: term().
+concat_map(Fun, List) ->
+    lists:append(lists:map(Fun, List)).
