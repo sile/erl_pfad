@@ -13,10 +13,14 @@
          fst/1,
          snd/1,
          scanl/3,
+         scanr/3,
          while/2,
          cons/2,
          take/2,
-         drop/2
+         drop/2,
+         minors/1,
+         foldr1/2,
+         transpose/1
         ]).
 
 -spec map_tail(Fun, [Element]) -> [Result] when
@@ -96,6 +100,16 @@ scanl(Fun, Initial, List) ->
                   [Initial],
                   List)).
 
+-spec scanr(Fun, Initial, List) -> Acc when
+      Fun     :: fun ((term(), term()) -> term()),
+      Initial :: term(),
+      List    :: [term()],
+      Acc     :: [term()].
+scanr(Fun, Initial, List) ->
+    lists:foldr(fun (X, Acc) -> [Fun(X, hd(Acc)) | Acc] end,
+                [Initial],
+                List).
+
 -spec while(Fun, Arg) -> Result when
       Fun    :: fun ((Arg) -> {boolean(), Result}),
       Arg    :: term(),
@@ -126,3 +140,33 @@ drop(N, List) ->
       Output :: term().
 concat_map(Fun, List) ->
     lists:append(lists:map(Fun, List)).
+
+-spec minors([A]) -> [[A]] when A :: term().
+minors([])       -> [];
+minors([X | Xs]) -> [Xs | [[X | Ys] || Ys <- minors(Xs)]].
+
+-spec foldr1(Fun, List) -> Result when
+      Fun     :: fun ((Element, Acc) -> Result),
+      List    :: [Element],
+      Element :: term(),
+      Acc     :: Element,
+      Result  :: Element.
+foldr1(Fun, Xs) ->
+    lists:foldr(Fun, lists:last(Xs), lists:droplast(Xs)).
+
+-spec transpose([[A]]) -> [[A]] when A :: term().
+transpose([])       -> [];
+transpose(Rows) ->
+    {Col, RestRows} =
+        lists:foldr(
+          fun ([], Acc) ->
+                  Acc;
+              ([H | T], {Heads, Tails}) ->
+                  {[H | Heads], [T | Tails]}
+          end,
+          {[], []},
+          Rows),
+    case Col of
+        [] -> [];
+        _  -> [Col | transpose(RestRows)]
+    end.
