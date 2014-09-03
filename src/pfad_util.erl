@@ -20,7 +20,9 @@
          drop/2,
          minors/1,
          foldr1/2,
-         transpose/1
+         transpose/1,
+         signum/1,
+         cycle/2
         ]).
 
 -spec map_tail(Fun, [Element]) -> [Result] when
@@ -170,3 +172,16 @@ transpose(Rows) ->
         [] -> [];
         _  -> [Col | transpose(RestRows)]
     end.
+
+-spec signum(number()) -> -1 | 0 | 1.
+signum(N) when N > 0 ->  1;
+signum(N) when N < 0 -> -1;
+signum(_)            ->  0.
+
+-spec cycle([A], non_neg_integer()) -> [A] when A :: term().
+cycle(Xs, N) ->
+    Cycle = fun Cycle(_, 0)        -> [];
+                Cycle([], I)       -> Cycle(Xs, I);
+                Cycle([Y | Ys], I) -> [Y | Cycle(Ys, I - 1)]
+            end,
+    Cycle(Xs, N).
