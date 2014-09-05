@@ -22,7 +22,8 @@
          foldr1/2,
          transpose/1,
          signum/1,
-         cycle/2
+         cycle/2,
+         unfoldr/2
         ]).
 
 -spec map_tail(Fun, [Element]) -> [Result] when
@@ -185,3 +186,13 @@ cycle(Xs, N) ->
                 Cycle([Y | Ys], I) -> [Y | Cycle(Ys, I - 1)]
             end,
     Cycle(Xs, N).
+
+-spec unfoldr(Fun, B) -> [A] when
+      Fun :: fun ((B) -> {ok, A, B} | error),
+      A   :: term(),
+      B   :: term().
+unfoldr(Fun, B) ->
+    case Fun(B) of
+        error       -> [];
+        {ok, A, B2} -> [A | unfoldr(Fun, B2)]
+    end.
