@@ -23,7 +23,9 @@
          transpose/1,
          signum/1,
          cycle/2,
-         unfoldr/2
+         unfoldr/2,
+         stream/4,
+         destream/6
         ]).
 
 -spec map_tail(Fun, [Element]) -> [Result] when
@@ -196,3 +198,49 @@ unfoldr(Fun, B) ->
         error       -> [];
         {ok, A, B2} -> [A | unfoldr(Fun, B2)]
     end.
+
+-spec stream(F, G, S, Xs) -> [Value] when
+      F :: fun ((S) -> {ok, Value, S} | error),
+      G :: fun ((S, X) -> S),
+      S :: term(),
+      X :: term(),
+      Xs :: [X],
+      Value :: term().
+stream(F, G, S0, Xs0) ->
+    Step =
+        fun Step({S, Xs}) ->
+                case F(S) of
+                    {ok, Y, S_} -> {ok, Y, {S_, Xs}};
+                    error       ->
+                        case Xs of
+                            [X | Xs_] -> Step({G(S, X), Xs_});
+                            []        -> error
+                        end
+                end
+        end,
+    unfoldr(Step, {S0, Xs0}).
+
+-spec destream(N, F, G, H, S, Ys) -> [X] when
+      N :: non_neg_integer(),
+      F :: fun ((S) -> {ok, Y, S}),
+      G :: fun ((S, X) -> S),
+      H :: fun ((S, Ys) -> X),
+      S :: term(),
+      X :: term(),
+      Y :: term(),
+      Ys :: [Y].
+destream(N0, F, G, H, S0, Ys0) ->
+    Step =
+        fun Step({0, _, _}) ->
+                error;
+            Step({N, S, Ys}) ->
+                case F(S) of
+                    {ok, _Y, S_} ->
+                        _Y = hd(Ys),
+                        Step(S_, tl(Ys));
+                    error        ->
+                        X = H(S, Ys),
+                        {ok, X, {N - 1, G(S, X), Ys}}
+                end
+        end,
+    unfoldr(Step, {N0, S0, Ys0}).

@@ -12,9 +12,14 @@
          narrow/2,
          widen/2,
          ratio/2,
+         ratio_mul/2, ratio_add/2, ratio_sub/2, ratio_div/2, ratio_floor/1,
          to_bits/1,
          to_frac/1
         ]).
+
+-export_type([
+              fraction/0
+             ]).
 
 -type ratio() :: {ratio, integer(), integer()}.
 -type fraction() :: ratio().
@@ -131,31 +136,14 @@ ratio_mul({ratio, N1, D1}, {ratio, N2, D2}) ->
 ratio_div(R, {ratio, N, D}) ->
     ratio_mul(R, {ratio, D, N}).
 
+-spec ratio_floor(ratio()) -> integer().
+ratio_floor({ratio, N, D}) ->
+    N div D.
+
 -spec ratio_compare(ratio(), ratio()) -> -1 | 0 | 1.
 ratio_compare(A, B) ->
     {ratio, N, _} = ratio_sub(A, B),
     pfad_util:signum(N).
-
--spec stream(F, G, S, Xs) -> [Value] when
-      F :: fun ((S) -> {ok, Value, S} | error),
-      G :: fun ((S, X) -> S),
-      S :: term(),
-      X :: term(),
-      Xs :: [X],
-      Value :: term().
-stream(F, G, S0, Xs0) ->
-    Step =
-        fun Step({S, Xs}) ->
-                case F(S) of
-                    {ok, Y, S_} -> {ok, Y, {S_, Xs}};
-                    error       ->
-                        case Xs of
-                            [X | Xs_] -> Step({G(S, X), Xs_});
-                            []        -> error
-                        end
-                end
-        end,
-    pfad_util:unfoldr(Step, {S0, Xs0}).
 
 -type bit() :: 1 | 0.
 
@@ -182,4 +170,4 @@ to_frac(Bits) ->
 
 -spec stream_encode(model(), [symbol()]) -> [bit()].
 stream_encode(M, Symbols) ->
-    stream(fun bit/1, fun narrow/2, unit_interval(), intervals(M, Symbols)).
+    pfad_util:stream(fun bit/1, fun narrow/2, unit_interval(), intervals(M, Symbols)).
