@@ -237,7 +237,7 @@ destream(N0, F, G, H, S0, Ys0) ->
                 case F(S) of
                     {ok, _Y, S_} ->
                         _Y = hd(Ys),
-                        Step(S_, tl(Ys));
+                        Step({N, S_, tl(Ys)});
                     error        ->
                         X = H(S, Ys),
                         {ok, X, {N - 1, G(S, X), Ys}}
