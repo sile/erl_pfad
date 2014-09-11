@@ -9,6 +9,11 @@
          loopless_boxall_op2/1
         ]).
 
+-export([
+         cons_queue/2,
+         wrap_queue/1
+        ]).
+
 %%```
 %% > pfad_ch28:box([3,4], [0,1,2]).
 %% [0,1,2,3,2,1,0,4,0,1,2]
