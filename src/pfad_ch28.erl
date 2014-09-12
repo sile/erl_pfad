@@ -11,8 +11,13 @@
 
 -export([
          cons_queue/2,
-         wrap_queue/1
+         wrap_queue/1,
+         step/1
         ]).
+
+-export_type([
+              forest/1
+             ]).
 
 %%```
 %% > pfad_ch28:box([3,4], [0,1,2]).
