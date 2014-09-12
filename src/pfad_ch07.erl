@@ -1,5 +1,5 @@
 %% @doc Chapter7: Building a tree with minimum height
--module(pfad_ch7).
+-module(pfad_ch07).
 
 -export([
          mincost_tree/1,
@@ -82,7 +82,7 @@ fork({Cost1, Tree1}, {Cost2, Tree2}) ->
 -spec insert(integer(), [tree_with_cost()]) -> [tree_with_cost()].
 insert(X, Ts) ->
     [leaf(X) | split(X, Ts)].
-                    
+
 -spec split(integer(), [tree_with_cost()]) -> [tree_with_cost()].
 split(_, Ts = [_])                                         -> Ts;
 split(X, Ts = [{UC, _}, {VC, _} | _]) when X < VC, UC < VC -> Ts;

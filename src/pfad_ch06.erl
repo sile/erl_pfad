@@ -1,5 +1,5 @@
 %% @doc Chapter6: Making a century
--module(pfad_ch6_making_a_century).
+-module(pfad_ch06).
 
 -export([
          solutions/1,
@@ -41,7 +41,7 @@ expressions(Digits) ->
 -spec good(integer()) -> boolean().
 good(100) -> true;
 good(_)   -> false.
- 
+
 -spec improved_solutions([digit()]) -> [expression()].
 improved_solutions(Digits) ->
     C = 100,

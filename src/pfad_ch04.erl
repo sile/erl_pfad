@@ -1,5 +1,5 @@
 %% @doc Chapter 4: A selection problem
--module(pfad_ch4_a_selection_problem).
+-module(pfad_ch04).
 
 -export([
          smallest/3,
@@ -8,7 +8,7 @@
 
 %% @doc O(|Xs| + |Ys|)
 -spec smallest(non_neg_integer(), ordsets:ordset(term()), ordsets:ordset(term())) -> term().
-smallest(Nth, Xs, Ys) -> 
+smallest(Nth, Xs, Ys) ->
     lists:nth(Nth + 1, ordsets:union(Xs, Ys)).
 
 %% @doc O(log(|Xs| + |Ys|))
@@ -18,7 +18,7 @@ devide_and_conquer_smallest(Nth, Xs, Ys) ->
 
 -spec search(non_neg_integer(), tuple(), non_neg_integer(), non_neg_integer(), tuple(), non_neg_integer(), non_neg_integer()) -> term().
 search(Nth, _, Xl, Xr, Ys, _, _) when Xl =:= Xr -> at(Nth - Xl, Ys);
-search(Nth, Xs, _, _, _, Yl, Yr) when Yl =:= Yr -> at(Nth - Yl, Xs); 
+search(Nth, Xs, _, _, _, Yl, Yr) when Yl =:= Yr -> at(Nth - Yl, Xs);
 search(Nth, Xs, Xl, Xr, Ys, Yl, Yr) ->
     Xm = (Xl + Xr) div 2,
     Ym = (Yl + Yr) div 2,
@@ -30,7 +30,3 @@ search(Nth, Xs, Xl, Xr, Ys, Yl, Yr) ->
 
 -spec at(non_neg_integer(), tuple()) -> term().
 at(Nth, Tuple) -> element(Nth + 1, Tuple).
-
-    
-
-

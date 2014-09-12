@@ -1,5 +1,5 @@
 %% @doc Chapter8: Unravelling greedy algorithms
--module(pfad_ch8).
+-module(pfad_ch08).
 
 -export([
          supravel/1,
@@ -15,7 +15,7 @@ supravel(Xs) ->
 
 -spec up(string()) -> boolean().
 up([])            -> true;
-up([_])           -> true; 
+up([_])           -> true;
 up([X, Y | Rest]) -> X =< Y andalso up([Y | Rest]).
 
 -spec unravels(string()) -> [[string()]].
@@ -36,9 +36,3 @@ greedy_supravel(Xs) ->
 insert(X, [])                          -> [[X]];
 insert(X, [Xs | Xss]) when X =< hd(Xs) -> [[X | Xs] | Xss];
 insert(X, [Xs | Xss])                  -> [Xs | insert(X, Xss)].
-
-
-
-
-
-

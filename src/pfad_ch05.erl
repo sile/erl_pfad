@@ -1,5 +1,5 @@
 %% @doc Chapter 5: Sorting pairwize sums
--module(pfad_ch5_sorting_pairwise_sums).
+-module(pfad_ch05).
 
 -export([
          sortsums/2,
@@ -29,7 +29,7 @@ sortsubs(Ws)  ->
     Incl = fun ({X, {I, J}}) -> {X, {M + I, J}} end,
     Incr = fun ({X, {I, J}}) -> {X, {I, M + J}} end,
     Incb = fun ({X, {I, J}}) -> {X, {M + I, M + J}} end,
-    
+
     lists:foldr(fun lists:merge/2, [], [Xxs, lists:map(Incl, Xys), lists:map(Incr, Yxs), lists:map(Incb, Yys)]).
 
 -spec sortsubs([term()], [term()]) -> [{term(), {integer(), integer()}}].

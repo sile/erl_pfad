@@ -1,5 +1,5 @@
 %% @doc Chapter 1: The smallest free number
--module(pfad_ch1_the_smallest_free_number).
+-module(pfad_ch01).
 
 -export([
          minfree/1,

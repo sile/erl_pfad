@@ -1,5 +1,5 @@
 %% @doc Chapter9: Finding celebrities
--module(pfad_ch9).
+-module(pfad_ch09).
 
 -export([
          exponential_cclique/1,
@@ -12,7 +12,7 @@
 -type celebrity_clique() :: people().
 
 -spec exponential_cclique(people()) -> celebrity_clique().
-exponential_cclique(People) -> 
+exponential_cclique(People) ->
     hd(exponential_ccliques(People)).
 
 -spec exponential_ccliques(people()) -> [celebrity_clique()].

@@ -1,5 +1,5 @@
 %% @doc Chapter 3: Improving on saddleback search
--module(pfad_ch3_improving_on_saddleback_search).
+-module(pfad_ch03).
 
 -export([
          invert_p12_1/2,
@@ -41,7 +41,7 @@ find_p13_1({FirstX, LastY}, Fun, Z) ->
 -spec invert_p13_2(binary_fun(), non_neg_integer()) -> [argument_pair()].
 invert_p13_2(Fun, Z) ->
     find_p13_2({0, Z}, Fun, Z).
- 
+
 -spec find_p13_2(argument_pair(), binary_fun(), non_neg_integer()) -> [argument_pair()].
 find_p13_2({X, Y}, _, Z) when X > Z; Y < 0 ->
     [];
@@ -55,7 +55,7 @@ find_p13_2({X, Y}, Fun, Z) ->
 
 %% @doc [WORST] 2 * log(Z) + M + N, [BEST] 2 * log(Z) + min(M, N)
 -spec invert_p14_1(binary_fun(), non_neg_integer()) -> [argument_pair()].
-invert_p14_1(Fun, Z) -> 
+invert_p14_1(Fun, Z) ->
     M = bsearch(fun (Y) -> Fun(0, Y) end, -1, Z + 1, Z),
     N = bsearch(fun (X) -> Fun(X, 0) end, -1, Z + 1, Z),
     find_p14_1({0, M}, {N, 0}, Fun, Z).
@@ -66,7 +66,7 @@ bsearch(_Fun, -1, 0, _Z) -> 0;
 bsearch(_Fun, 0, -1, _Z) -> 0;
 bsearch(_Fun, Low, High, _) when Low + 1 =:= High -> Low;
 bsearch(Fun, Low, High, Z) ->
-    M = (Low + High) div 2, 
+    M = (Low + High) div 2,
     case Fun(M) =< Z of
         true  -> bsearch(Fun, M, High, Z);
         false -> bsearch(Fun, Low, M, Z)
@@ -99,7 +99,7 @@ find_p15_1({Top, Left}, {Bottom, Right}, Fun, Z) when (Left - Right) =< (Bottom 
     case Fun(P, Q) =:= Z of
         true  -> [{P, Q} | find_p15_1({Top, Left}, {P - 1, Q + 1}, Fun, Z)];
         false -> find_p15_1({Top, Left}, {P, Q + 1}, Fun, Z)
-    end ++ 
+    end ++
     find_p15_1({P + 1, Q - 1}, {Bottom, Right}, Fun, Z);
 find_p15_1({Top, Left}, {Bottom, Right}, Fun, Z) ->
     P = (Left + Right) div 2,
